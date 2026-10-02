@@ -24,14 +24,10 @@ export function apply(ctx: ClientContext): void {
     locale: NS,
   }, LensChip))
 
-  try {
-    ctx.slots.inject('conversation.input.dock', () => ctx.slots.register({
-      name: 'conversation.input.dock',
-      id: 'dsh-lens',
-      order: 5,
-      locale: NS,
-    }, LensDock))
-  } catch {
-    // Older web shells may not declare the dock list.
-  }
+  ctx.slots.inject('conversation.input.dock', () => ctx.slots.register({
+    name: 'conversation.input.dock',
+    id: 'dsh-lens',
+    order: 5,
+    locale: NS,
+  }, LensDock))
 }

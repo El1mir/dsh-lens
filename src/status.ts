@@ -61,7 +61,6 @@ export function snapshotLensStatus(
   const widget = exportWidgetState() as { files?: WidgetFile[] }
   const ranked = [...widget.files ?? []]
     .sort((left, right) => (right.touchedAt ?? 0) - (left.touchedAt ?? 0))
-    .slice(0, MAX_FILES)
 
   const files: LensFileStatus[] = ranked.map((file) => {
     const diagnostics = file.allDiagnostics ?? file.diagnostics ?? []
@@ -95,7 +94,7 @@ export function snapshotLensStatus(
     blocking: files.reduce((sum, file) => sum + file.blocking, 0),
     errors: files.reduce((sum, file) => sum + file.errors, 0),
     warnings: files.reduce((sum, file) => sum + file.warnings, 0),
-    files,
+    files: files.slice(0, MAX_FILES),
     failedLsp: getFailedLspServerIds(),
     lsp,
     ...extras.mapPath ? { mapPath: extras.mapPath } : {},

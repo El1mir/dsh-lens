@@ -42,6 +42,22 @@
 
 .count {
   margin: 0 5px;
+  white-space: nowrap;
+}
+
+.success {
+  color: var(--dsw-alias-state-success-primary);
+  flex: none;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .fileLabel {
