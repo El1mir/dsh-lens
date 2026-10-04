@@ -47,6 +47,8 @@
 	"scripts": {
 		"build": "tsc -p tsconfig.json && tsc -p tsconfig.client.json && node scripts/bundle-client.mjs",
 		"typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.client.json",
+		"format": "biome format --write src scripts package.json tsconfig.json tsconfig.client.json",
+		"format:check": "biome check --linter-enabled=false --assist-enabled=false src scripts package.json tsconfig.json tsconfig.client.json",
 		"test": "npm run build && node --test --test-reporter=spec dist/test/*.test.js",
 		"prepack": "npm run build && node --test --test-reporter=spec dist/test/*.test.js"
 	},
@@ -117,6 +119,7 @@
 		}
 	},
 	"devDependencies": {
+		"@biomejs/biome": "2.5.15",
 		"@deepseek-ai/cordis": "4.0.4",
 		"@deepseek-ai/dsh-agent": "0.2.0-rc.2",
 		"@deepseek-ai/dsh-client-ui-primitives": "0.2.0-rc.2",
