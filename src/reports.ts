@@ -38,7 +38,7 @@ export async function renderHealthReport(state: LensRuntime): Promise<string> {
 	const lines = [
 		'PI-LENS HEALTH',
 		`Session started: ${startedAt} (${sessionAgeStr} ago)`,
-		`dsh-lens ${state.flags.enabled ? 'enabled' : 'disabled'} · context ${state.flags.contextInjection ? 'on' : 'off'} · widget ${state.flags.widgetVisible ? 'on' : 'off'}`,
+		`dsh-lens ${state.flags.enabled ? 'enabled' : 'disabled'} · context ${state.flags.contextInjection ? 'on' : 'off'} · compact ${state.flags.compactInjection ? 'on' : 'off'} · widget ${state.flags.widgetVisible ? 'on' : 'off'}`,
 		`project: ${state.projectRoot}`,
 		'',
 		`Pipeline crashes (session): ${totalCrashes}`,

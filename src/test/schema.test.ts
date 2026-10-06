@@ -13,7 +13,12 @@ function fakeRuntime(): LensRuntime {
 	runtime.projectRoot = '/tmp';
 	return {
 		projectRoot: '/tmp',
-		flags: { enabled: true, contextInjection: true, widgetVisible: true },
+		flags: {
+			enabled: true,
+			contextInjection: true,
+			compactInjection: true,
+			widgetVisible: true,
+		},
 		runtime,
 		cacheManager: new CacheManager(),
 		astGrepClient: new AstGrepClient(),
@@ -21,6 +26,7 @@ function fakeRuntime(): LensRuntime {
 		getFlag: () => true,
 		started: Promise.resolve(),
 		announcedRoots: new Set<string>(),
+		reportedSnapshots: new Map<string, string>(),
 	};
 }
 

@@ -23,12 +23,19 @@ export interface Config extends EngineFlagConfig {
 	cwd?: string;
 	enabled?: boolean;
 	contextInjection?: boolean;
+	/**
+	 * Attach a bounded (≤200 char) diagnostic summary to the tool result itself
+	 * instead of injecting a separate user message that replays forever.
+	 * Defaults to on; set false to fall back to the legacy verbose injection.
+	 */
+	compactInjection?: boolean;
 }
 
 export const Config: Schema<Config> = Schema.object({
 	cwd: Schema.string(),
 	enabled: Schema.boolean(),
 	contextInjection: Schema.boolean(),
+	compactInjection: Schema.boolean(),
 	lsp: Schema.boolean(),
 	format: Schema.boolean(),
 	immediateFormat: Schema.boolean(),
@@ -50,6 +57,7 @@ export async function apply(ctx: Context, config: Config = {}): Promise<void> {
 		cwd: config.cwd,
 		enabled: config.enabled,
 		contextInjection: config.contextInjection,
+		compactInjection: config.compactInjection,
 		flagOverrides: flagOverridesFromConfig(config),
 	});
 

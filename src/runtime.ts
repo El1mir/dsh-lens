@@ -30,12 +30,21 @@ export interface LensRuntime {
 	 * announcement is deduplicated per root instead of printed per switch.
 	 */
 	announcedRoots: Set<string>;
+	/**
+	 * Last blocker snapshot reported per absolute file path, so an unchanged
+	 * blocker set is not re-attached to every subsequent edit of that file.
+	 * Session memory only — it is deliberately not persisted: a fresh session
+	 * should re-state the current problems once.
+	 */
+	reportedSnapshots: Map<string, string>;
 }
 
 export interface RuntimeOptions {
 	cwd?: string;
 	enabled?: boolean;
 	contextInjection?: boolean;
+	/** Bounded diagnostic summaries attached to tool results instead of messages. */
+	compactInjection?: boolean;
 	flagOverrides?: Record<string, boolean | string | undefined>;
 }
 
@@ -44,6 +53,7 @@ export function createRuntime(options: RuntimeOptions = {}): LensRuntime {
 	const flags: LensFlags = {
 		enabled: options.enabled !== false,
 		contextInjection: options.contextInjection !== false,
+		compactInjection: options.compactInjection !== false,
 		widgetVisible: true,
 	};
 	const coordinator = new RuntimeCoordinator();
@@ -63,6 +73,7 @@ export function createRuntime(options: RuntimeOptions = {}): LensRuntime {
 		started: Promise.resolve(),
 		sessionCwd: projectRoot,
 		announcedRoots: new Set<string>(),
+		reportedSnapshots: new Map<string, string>(),
 	};
 
 	state.started = startSession(state, projectRoot);

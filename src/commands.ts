@@ -64,6 +64,19 @@ function registerLensCommandsOn(
 		},
 	);
 
+	add(
+		'lens-compact-toggle',
+		'Toggle compact injection: bounded summary on the tool result vs. a separate message',
+		() => {
+			state.flags.compactInjection = !state.flags.compactInjection;
+			return ok(
+				state.flags.compactInjection
+					? 'dsh-lens compact injection on — diagnostics ride on the tool result (≤200 chars); pull detail with lens_diagnostics mode=all.'
+					: 'dsh-lens compact injection off — legacy verbose injection restored (full diagnostic prose as a separate message).',
+			);
+		},
+	);
+
 	add('lens-widget-toggle', 'Show or hide the WebUI lens diagnostics chip', () => {
 		state.flags.widgetVisible = !state.flags.widgetVisible;
 		return ok(

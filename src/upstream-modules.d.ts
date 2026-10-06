@@ -272,6 +272,43 @@ declare module 'pi-lens/dist/clients/widget-state.js' {
 	};
 	export function getSessionLanguages(): string[];
 	export function getFailedLspServerIds(): string[];
+	/**
+	 * Diagnostics recorded for one file, or `undefined` when pi-lens has never
+	 * recorded that path (which is distinct from `[]`, "recorded and clean").
+	 * The argument is keyed after backslash-folding plus win32 lowercasing, so
+	 * callers must pass the same absolute path pi-lens itself stored.
+	 */
+	export function getFileDiagnostics(filePath: string):
+		| Array<{
+				semantic?: string;
+				severity?: string;
+				line?: number;
+				col?: number;
+				rule?: string;
+				tool?: string;
+				message?: string;
+		  }>
+		| undefined;
+	/** Wipe every recorded file/server/language. Test-only seam. */
+	export function clearWidgetState(): void;
+	/**
+	 * Record one file's diagnostics as pi-lens' per-edit pipeline would.
+	 * `writeIndex` is the per-edit ordering token; omitting it always writes.
+	 */
+	export function recordDiagnostics(
+		filePath: string,
+		diagnostics: Array<{
+			id?: string;
+			rule?: string;
+			semantic?: string;
+			severity?: string;
+			line?: number;
+			column?: number;
+			tool?: string;
+			message?: string;
+		}>,
+		writeIndex?: number,
+	): void;
 }
 
 declare module 'pi-lens/dist/tools/activate-tools.js' {

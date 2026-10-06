@@ -3,6 +3,13 @@ import { createMcpHost } from 'pi-lens/dist/clients/mcp/host-shim.js';
 export interface LensFlags {
 	enabled: boolean;
 	contextInjection: boolean;
+	/**
+	 * Compact injection mode: diagnostics ride on the tool result as a bounded
+	 * summary instead of a separate, unbounded user message. Orthogonal to
+	 * `contextInjection` — turning that off silences the wrapper entirely,
+	 * turning this off restores the legacy verbose behaviour.
+	 */
+	compactInjection: boolean;
 	widgetVisible: boolean;
 }
 

@@ -146,9 +146,13 @@ export function formatLensChip(status: LensStatus): string {
 	return `lens ${parts.join(' ')}`;
 }
 
-export function formatLensDock(status: LensStatus): string {
+export function formatLensDock(status: LensStatus, extras: { compact?: boolean } = {}): string {
 	const header = formatLensChip(status);
 	const langs = status.languages.length > 0 ? ` · ${status.languages.join(' ')}` : '';
+	// `compact` is a wrapper-level switch, not part of the pi-lens snapshot, so
+	// it is passed in rather than derived — the dock is where a user can see at
+	// a glance which injection shape the session is actually using.
+	const mode = extras.compact === undefined ? '' : ` · compact ${extras.compact ? 'on' : 'off'}`;
 	const files = status.files.slice(0, 4).map((file) => {
 		const counts = [
 			file.blocking > 0 ? `${file.blocking}B` : '',
@@ -160,5 +164,5 @@ export function formatLensDock(status: LensStatus): string {
 		return `${basename(file.path)}${counts ? ` ${counts}` : ''}`;
 	});
 	const failed = status.failedLsp.length > 0 ? ` · LSP failed: ${status.failedLsp.join(' ')}` : '';
-	return [header + langs + failed, ...files].join('\n');
+	return [header + langs + mode + failed, ...files].join('\n');
 }
